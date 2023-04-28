@@ -1,7 +1,7 @@
 import json
 import trace
 
-class Scaper:
+class Scaper_opentelemetry:
     def __init__(self, fname):
         self.fname = fname
     
@@ -9,6 +9,7 @@ class Scaper:
         f = open(self.fname, "r")
         inp = f.read()
         arr = inp.split("\"")
+
         traces = []
         span_ids, parent_ids, start_times, end_times = [], [], [], []
         for i in range(len(arr)):

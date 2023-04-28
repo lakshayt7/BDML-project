@@ -2,8 +2,13 @@ import helper
 
 class Trace:
     def __init__(self, start_time, end_time, id, parent_id):
-        self.start_time = helper.parse_time(start_time)
-        self.end_time = helper.parse_time(end_time)
+        open = False
+        if open:
+            self.start_time = helper.parse_time(start_time)
+            self.end_time = helper.parse_time(end_time)
+        else:
+            self.start_time = start_time
+            self.end_time = end_time
         self.id = id
         self.parent_id = parent_id
         self.parent = None

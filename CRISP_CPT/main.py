@@ -1,13 +1,19 @@
 import sys
 
 from trace import *
-from scrape import *
+from scrape_jaegar import *
+from scrape_opentelemetry import *
 from graph import *
 
 if __name__ == "__main__":
-    fname = sys.argv[1]
+    fname = sys.argv[2] 
     
-    scraper = Scaper(fname)
+    match sys.argv[1]:
+        case "o":
+            scraper = Scaper_opentelemetry(fname)
+        case "j":
+            scraper = Scaper_jaegar(fname)
+
     traces = scraper.parse()
 
     '''

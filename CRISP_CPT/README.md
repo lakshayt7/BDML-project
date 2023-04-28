@@ -1,5 +1,13 @@
 to run CPT on trace run the following command
 
-python3 main.py [trace_name]
+python3 main.py [j/o] [trace_file]
 
-code currently assumes Opentracing json trace as input
+for jaegar trace use
+
+python3 main.py j [trace_file]
+
+for opentelemetry trace use
+
+python3 main.py j [trace_file]
+
+
