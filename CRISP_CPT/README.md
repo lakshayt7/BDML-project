@@ -8,6 +8,6 @@ for jaegar trace use
 
 for opentelemetry trace use
 
-    python3 main.py oß [trace_file]
+    python3 main.py o [trace_file]
 
 
