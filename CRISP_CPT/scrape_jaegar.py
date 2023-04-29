@@ -54,7 +54,7 @@ class Scaper_jaegar:
             try:    
                 tr.set_serviceName(js['data'][0]['processes'][tr.pid]['serviceName'])
             except:
-                pass
+                tr.set_serviceName(js['processes'][tr.pid]['serviceName'])
 
         return traces
 

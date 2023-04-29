@@ -1,4 +1,4 @@
-span 0
+span = 0
 span_id = 5720621000359f3e
 parent_id = None
 start_time = 1682628697857000
@@ -7,9 +7,9 @@ inclusive_time = 4763
 exclusive_time = 948
 process_id = p3
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 1
+span = 1
 span_id = 4940c5db6e404ab0
 parent_id = 5720621000359f3e
 start_time = 1682628697857947
@@ -18,9 +18,9 @@ inclusive_time = 3815
 exclusive_time = 87
 process_id = p3
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 2
+span = 2
 span_id = e965166e4117ab52
 parent_id = 4940c5db6e404ab0
 start_time = 1682628697857996
@@ -29,9 +29,9 @@ inclusive_time = 3728
 exclusive_time = 350
 process_id = p3
 operationName = ComposeReview
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 3
+span = 3
 span_id = 328b37dfb6b88b70
 parent_id = e965166e4117ab52
 start_time = 1682628697859007
@@ -40,9 +40,9 @@ inclusive_time = 2594
 exclusive_time = 204
 process_id = p10
 operationName = UploadUniqueId
-serviceName = None
+serviceName = unique-id-service
 ------------------------------------------------------------------------------------
-span 4
+span = 4
 span_id = ae31c7e38372087c
 parent_id = 328b37dfb6b88b70
 start_time = 1682628697859146
@@ -51,9 +51,9 @@ inclusive_time = 2390
 exclusive_time = 988
 process_id = p4
 operationName = UploadUniqueId
-serviceName = None
+serviceName = compose-review-service
 ------------------------------------------------------------------------------------
-span 5
+span = 5
 span_id = 1c66b9df5ad49e7b
 parent_id = ae31c7e38372087c
 start_time = 1682628697860408
@@ -62,9 +62,9 @@ inclusive_time = 1027
 exclusive_time = 28
 process_id = p6
 operationName = UploadMovieReview
-serviceName = None
+serviceName = movie-review-service
 ------------------------------------------------------------------------------------
-span 6
+span = 6
 span_id = 3ee3df37fd123357
 parent_id = 1c66b9df5ad49e7b
 start_time = 1682628697860436
@@ -73,9 +73,9 @@ inclusive_time = 1003
 exclusive_time = 1003
 process_id = p6
 operationName = MongoFindMovie
-serviceName = None
+serviceName = movie-review-service
 ------------------------------------------------------------------------------------
-span 7
+span = 7
 span_id = d18d7741e387b6a5
 parent_id = ae31c7e38372087c
 start_time = 1682628697860033
@@ -84,9 +84,9 @@ inclusive_time = 352
 exclusive_time = 39
 process_id = p1
 operationName = StoreReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------
-span 8
+span = 8
 span_id = 23d5713aa70c0ca7
 parent_id = d18d7741e387b6a5
 start_time = 1682628697860059
@@ -95,5 +95,5 @@ inclusive_time = 313
 exclusive_time = 313
 process_id = p1
 operationName = MongoInsertReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------

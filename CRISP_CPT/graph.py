@@ -34,7 +34,7 @@ class Graph:
     def print_cpt(self):
         rev = self.pth#self.pth.reverse()
         for i, t in enumerate(rev):
-            print(f"span {i}")
+            print(f"span = {i}")
             t.pprint()
 
     

@@ -1,4 +1,4 @@
-span 0
+span = 0
 span_id = ef75cede717ed9c8
 parent_id = None
 start_time = 1682628698243000
@@ -7,9 +7,9 @@ inclusive_time = 5325
 exclusive_time = 733
 process_id = p5
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 1
+span = 1
 span_id = 670840db176ebbfb
 parent_id = ef75cede717ed9c8
 start_time = 1682628698243733
@@ -18,9 +18,9 @@ inclusive_time = 4592
 exclusive_time = 120
 process_id = p5
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 2
+span = 2
 span_id = 3725f55447ce0cbb
 parent_id = 670840db176ebbfb
 start_time = 1682628698243792
@@ -29,9 +29,9 @@ inclusive_time = 4472
 exclusive_time = 733
 process_id = p5
 operationName = ComposeReview
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 3
+span = 3
 span_id = 01867530f570e3ed
 parent_id = 3725f55447ce0cbb
 start_time = 1682628698244801
@@ -40,9 +40,9 @@ inclusive_time = 3055
 exclusive_time = 300
 process_id = p7
 operationName = UploadUniqueId
-serviceName = None
+serviceName = unique-id-service
 ------------------------------------------------------------------------------------
-span 4
+span = 4
 span_id = 19ff43f3fbaf9efa
 parent_id = 01867530f570e3ed
 start_time = 1682628698244966
@@ -51,9 +51,9 @@ inclusive_time = 2755
 exclusive_time = 1204
 process_id = p2
 operationName = UploadUniqueId
-serviceName = None
+serviceName = compose-review-service
 ------------------------------------------------------------------------------------
-span 5
+span = 5
 span_id = 64125cfb145df3bc
 parent_id = 19ff43f3fbaf9efa
 start_time = 1682628698246638
@@ -62,9 +62,9 @@ inclusive_time = 989
 exclusive_time = 18
 process_id = p3
 operationName = UploadMovieReview
-serviceName = None
+serviceName = movie-review-service
 ------------------------------------------------------------------------------------
-span 6
+span = 6
 span_id = 7267bd8f566871dc
 parent_id = 64125cfb145df3bc
 start_time = 1682628698246656
@@ -73,9 +73,9 @@ inclusive_time = 973
 exclusive_time = 973
 process_id = p3
 operationName = MongoFindMovie
-serviceName = None
+serviceName = movie-review-service
 ------------------------------------------------------------------------------------
-span 7
+span = 7
 span_id = 8d930113122b1ed9
 parent_id = 19ff43f3fbaf9efa
 start_time = 1682628698246139
@@ -84,9 +84,9 @@ inclusive_time = 339
 exclusive_time = 35
 process_id = p8
 operationName = StoreReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------
-span 8
+span = 8
 span_id = 0f571cc96f1cb86d
 parent_id = 8d930113122b1ed9
 start_time = 1682628698246166
@@ -95,9 +95,9 @@ inclusive_time = 304
 exclusive_time = 304
 process_id = p8
 operationName = MongoInsertReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------
-span 9
+span = 9
 span_id = 226c6b8a6b8af679
 parent_id = 3725f55447ce0cbb
 start_time = 1682628698244117
@@ -106,9 +106,9 @@ inclusive_time = 622
 exclusive_time = 236
 process_id = p4
 operationName = UploadUserWithUsername
-serviceName = None
+serviceName = user-service
 ------------------------------------------------------------------------------------
-span 10
+span = 10
 span_id = 090cc0f0cc701dcb
 parent_id = 226c6b8a6b8af679
 start_time = 1682628698244391
@@ -117,9 +117,9 @@ inclusive_time = 287
 exclusive_time = 287
 process_id = p2
 operationName = UploadUserId
-serviceName = None
+serviceName = compose-review-service
 ------------------------------------------------------------------------------------
-span 11
+span = 11
 span_id = 2afaad3fa6f084f5
 parent_id = 226c6b8a6b8af679
 start_time = 1682628698244133
@@ -128,5 +128,5 @@ inclusive_time = 99
 exclusive_time = 99
 process_id = p4
 operationName = MmcGetUserId
-serviceName = None
+serviceName = user-service
 ------------------------------------------------------------------------------------

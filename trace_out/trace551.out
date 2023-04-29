@@ -1,4 +1,4 @@
-span 0
+span = 0
 span_id = 386d29c3993c494c
 parent_id = None
 start_time = 1682628698130000
@@ -7,9 +7,9 @@ inclusive_time = 4572
 exclusive_time = 268
 process_id = p6
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 1
+span = 1
 span_id = 5b9a54ec68552894
 parent_id = 386d29c3993c494c
 start_time = 1682628698130268
@@ -18,9 +18,9 @@ inclusive_time = 4304
 exclusive_time = 81
 process_id = p6
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 2
+span = 2
 span_id = fab5d9afebb98a4f
 parent_id = 5b9a54ec68552894
 start_time = 1682628698130303
@@ -29,9 +29,9 @@ inclusive_time = 4223
 exclusive_time = 730
 process_id = p6
 operationName = ComposeReview
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 3
+span = 3
 span_id = 37de5911fd405fa8
 parent_id = fab5d9afebb98a4f
 start_time = 1682628698130992
@@ -40,9 +40,9 @@ inclusive_time = 2985
 exclusive_time = 248
 process_id = p9
 operationName = UploadUniqueId
-serviceName = None
+serviceName = unique-id-service
 ------------------------------------------------------------------------------------
-span 4
+span = 4
 span_id = 8743a4dac810de96
 parent_id = 37de5911fd405fa8
 start_time = 1682628698131173
@@ -51,9 +51,9 @@ inclusive_time = 2737
 exclusive_time = 1251
 process_id = p4
 operationName = UploadUniqueId
-serviceName = None
+serviceName = compose-review-service
 ------------------------------------------------------------------------------------
-span 5
+span = 5
 span_id = 1992418329ebdd8f
 parent_id = 8743a4dac810de96
 start_time = 1682628698132686
@@ -62,9 +62,9 @@ inclusive_time = 1110
 exclusive_time = 32
 process_id = p2
 operationName = UploadUserReview
-serviceName = None
+serviceName = user-review-service
 ------------------------------------------------------------------------------------
-span 6
+span = 6
 span_id = a25209028c178ecf
 parent_id = 1992418329ebdd8f
 start_time = 1682628698132718
@@ -73,9 +73,9 @@ inclusive_time = 1082
 exclusive_time = 1082
 process_id = p2
 operationName = MongoFindUser
-serviceName = None
+serviceName = user-review-service
 ------------------------------------------------------------------------------------
-span 7
+span = 7
 span_id = fc397f13b1991062
 parent_id = 8743a4dac810de96
 start_time = 1682628698132310
@@ -84,9 +84,9 @@ inclusive_time = 355
 exclusive_time = 43
 process_id = p7
 operationName = StoreReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------
-span 8
+span = 8
 span_id = d8db274221f977d9
 parent_id = fc397f13b1991062
 start_time = 1682628698132341
@@ -95,5 +95,5 @@ inclusive_time = 312
 exclusive_time = 312
 process_id = p7
 operationName = MongoInsertReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------

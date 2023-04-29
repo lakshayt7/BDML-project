@@ -1,4 +1,4 @@
-span 0
+span = 0
 span_id = f37346a18f80cb53
 parent_id = None
 start_time = 1682628698288000
@@ -7,9 +7,9 @@ inclusive_time = 6060
 exclusive_time = 1102
 process_id = p1
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 1
+span = 1
 span_id = d575d69a3768bf17
 parent_id = f37346a18f80cb53
 start_time = 1682628698289101
@@ -18,9 +18,9 @@ inclusive_time = 4958
 exclusive_time = 89
 process_id = p1
 operationName = /wrk2-api/review/compose
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 2
+span = 2
 span_id = dbbd333766977968
 parent_id = d575d69a3768bf17
 start_time = 1682628698289145
@@ -29,9 +29,9 @@ inclusive_time = 4869
 exclusive_time = 976
 process_id = p1
 operationName = ComposeReview
-serviceName = None
+serviceName = nginx
 ------------------------------------------------------------------------------------
-span 3
+span = 3
 span_id = cc04103e5c7dfda0
 parent_id = dbbd333766977968
 start_time = 1682628698289396
@@ -40,9 +40,9 @@ inclusive_time = 3893
 exclusive_time = 412
 process_id = p4
 operationName = UploadMovieId
-serviceName = None
+serviceName = movie-id-service
 ------------------------------------------------------------------------------------
-span 4
+span = 4
 span_id = 605664c55496aca6
 parent_id = cc04103e5c7dfda0
 start_time = 1682628698290075
@@ -51,9 +51,9 @@ inclusive_time = 3034
 exclusive_time = 271
 process_id = p10
 operationName = UploadRating
-serviceName = None
+serviceName = rating-service
 ------------------------------------------------------------------------------------
-span 5
+span = 5
 span_id = 0d53036fc64bd8a4
 parent_id = 605664c55496aca6
 start_time = 1682628698290261
@@ -62,9 +62,9 @@ inclusive_time = 2718
 exclusive_time = 1164
 process_id = p3
 operationName = UploadRating
-serviceName = None
+serviceName = compose-review-service
 ------------------------------------------------------------------------------------
-span 6
+span = 6
 span_id = 3600efe758a483af
 parent_id = 0d53036fc64bd8a4
 start_time = 1682628698291615
@@ -73,9 +73,9 @@ inclusive_time = 1175
 exclusive_time = 27
 process_id = p7
 operationName = UploadMovieReview
-serviceName = None
+serviceName = movie-review-service
 ------------------------------------------------------------------------------------
-span 7
+span = 7
 span_id = c79fc39686580940
 parent_id = 3600efe758a483af
 start_time = 1682628698291642
@@ -84,9 +84,9 @@ inclusive_time = 1153
 exclusive_time = 1153
 process_id = p7
 operationName = MongoFindMovie
-serviceName = None
+serviceName = movie-review-service
 ------------------------------------------------------------------------------------
-span 8
+span = 8
 span_id = 05ae8722bdd9cb39
 parent_id = 0d53036fc64bd8a4
 start_time = 1682628698291236
@@ -95,9 +95,9 @@ inclusive_time = 332
 exclusive_time = 38
 process_id = p6
 operationName = StoreReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------
-span 9
+span = 9
 span_id = a57123323d0f76ec
 parent_id = 05ae8722bdd9cb39
 start_time = 1682628698291268
@@ -106,9 +106,9 @@ inclusive_time = 294
 exclusive_time = 294
 process_id = p6
 operationName = MongoInsertReview
-serviceName = None
+serviceName = review-storage-service
 ------------------------------------------------------------------------------------
-span 10
+span = 10
 span_id = 8cff043716f20f67
 parent_id = cc04103e5c7dfda0
 start_time = 1682628698289666
@@ -117,9 +117,9 @@ inclusive_time = 121
 exclusive_time = 121
 process_id = p4
 operationName = MmcSetMovieId
-serviceName = None
+serviceName = movie-id-service
 ------------------------------------------------------------------------------------
-span 11
+span = 11
 span_id = 4fec591c0a3fa0ea
 parent_id = cc04103e5c7dfda0
 start_time = 1682628698289414
@@ -128,5 +128,5 @@ inclusive_time = 96
 exclusive_time = 96
 process_id = p4
 operationName = MmcGetMovieId
-serviceName = None
+serviceName = movie-id-service
 ------------------------------------------------------------------------------------
