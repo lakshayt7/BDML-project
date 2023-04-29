@@ -255,10 +255,12 @@ def getCPT(file_path, write_file_path):
     parent_id = id_time_parent[parent_id]
   cpt_path.reverse()
   f = open(write_file_path, 'w')
+  detailed_cpt_path = []
   for index, id in enumerate(cpt_path):
     # print(id + " " + str(id_time_spent[id]))
     span = spans_dict[id]
     duration = id_time_spent[id]
+    details = {}
     if index != 0:
       duration -= id_time_spent[cpt_path[index - 1]]
     # print("Index " + str(index))
@@ -276,25 +278,71 @@ def getCPT(file_path, write_file_path):
     f.write("ProcessId = " + str(span[PROCESS_ID_STR]) + "\n")
     f.write("ThreadId = " + str(span[THREAD_ID_STR]) + "\n")
     f.write("Duration = " + str(duration) + " secs" + "\n")
+    details[DURATION_STR] = duration
     if SOURCE_STR in span:
       f.write("Operation name = " + span[TASK_NAME_STR] + ":" + span[SOURCE_STR] + "\n")
+      details[TASK_NAME_STR] = span[TASK_NAME_STR] + "@" + span[SOURCE_STR]
     else:
       f.write("Operation name = " + span[TASK_NAME_STR] + "\n")
+      details[TASK_NAME_STR] = span[TASK_NAME_STR]
     f.write("--------------------------------------------------------------------------------" + "\n")
-  return cpt_path
+    detailed_cpt_path.append(details)
+  return cpt_path, detailed_cpt_path
+
+def aggregateCptPaths(all_cpt_paths):
+  count = {}
+  duration = {}
+  sorted_counts = []
+  all_count = 0
+  total = 0
+  seen_total = 0
+  for index, cpt_path in enumerate(all_cpt_paths):
+    for i, span in enumerate(cpt_path):
+      total += 1
+      count[span[TASK_NAME_STR]] = count.get(span[TASK_NAME_STR], 0) + 1
+      duration[span[TASK_NAME_STR]] = duration.get(span[TASK_NAME_STR], 0) + span[DURATION_STR]
+    all_count += 1
+  for span_name in count:
+    duration[span_name] /= float(count[span_name])
+    sorted_counts.append([count[span_name], span_name])
+  sorted_by_count = sorted(sorted_counts, key=ids_comparator)
+  sorted_by_count.reverse()
+  mod_sorted_counts = []
+  print("Allcount: " + str(all_count) + " Total: " + str(total))
+  for span in sorted_by_count:
+    if span[0] == 1:
+      split_strings = span[1].split("@")
+      if len(split_strings) == 1:
+        continue
+      count[split_strings[1]] = count.get(split_strings[1], 0) + span[0]
+      duration[split_strings[1]] = duration.get(split_strings[1], 0) + duration[span[1]]
+  for span_name in count:
+    duration[span_name] /= float(count[span_name])
+    mod_sorted_counts.append([count[span_name], span_name])
+  sorted_by_count = sorted(mod_sorted_counts, key=ids_comparator)
+  sorted_by_count.reverse()
+  for span in sorted_by_count:
+    if span[0] < 2:
+      continue
+    seen_total += span[0]
+    print("Span Name: " + span[1] + " Avg Time: " + str(duration[span[1]]) + " Count: " + str(span[0]) + " Percentage appearance: " + str(float(span[0] * 100) / all_count))
+  print("All seen: " + str(seen_total))
 
 def runAllFiles():
   file_names = os.listdir("./traces")
   out_folder_path = "traces_output/"
+  all_cpt_paths = []
   for index, file_name in enumerate(file_names):
     print(index)
     if index == 1000:
       break
     try:
-      getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
+      cpt_path, detailed_cpt_path = getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
+      all_cpt_paths.append(detailed_cpt_path)
     except Exception as e:
       print("Got error at index: " + str(index) + " with filename: " + file_name)
       print("Error reason: " + str(e))
+  aggregateCptPaths(all_cpt_paths)
   # return len(file_names)
 
 # getCPT("sample-large-xtrace.json")
