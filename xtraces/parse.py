@@ -21,6 +21,7 @@ WAITED_OPERATION_STR = "waited"
 UNSET_OPERATION_STR = "unset"
 SET_OPERATION_STR = "set"
 JOIN_OPERATION_STR = "join"
+FORK_OPERATION_STR = "fork"
 
 def parse(file_path):
   with open(file_path) as f:
@@ -67,6 +68,9 @@ def parse(file_path):
 def event_comparator(event):
   return event[START_TIME_STR]
 
+def ids_comparator(event):
+  return event[0]
+
 def getProcThreadKey(process_id, thread_id):
   return str(process_id) + SEPARATOR_STR + str(thread_id)
 
@@ -90,12 +94,16 @@ def convertToTrace(file_path):
   print("Number of process & threads combos: " + str(len(proc_thread)))
   spans_dict = {}
   spans_end_id_to_start_id = {}
+  sorted_ids = []
+  unset_id_map = {}
+  unset_dict = {}
   for key in proc_thread:
     for index, value in enumerate(proc_thread[key]):
       parent_span_id = value[PARENT_ID_STR][0]
       spans_end_id_to_start_id[value[EVENT_ID_STR]] = parent_span_id
       if OPERATION_STR in value and value[OPERATION_STR] == UNSET_OPERATION_STR:
         # print(value[EVENT_ID_STR])
+        unset_dict[value[EVENT_ID_STR]] = 1
         continue
       spans_dict[value[EVENT_ID_STR]] = value
       # if value[EVENT_ID_STR] == "C5ECFEA48148ECD1":
@@ -116,16 +124,24 @@ def convertToTrace(file_path):
         if value[OPERATION_STR] == UNSET_OPERATION_STR:
           spans_dict[parent_span_id][END_TIME_STR] = span_start_time
           spans_dict[parent_span_id][END_EVENT_ID_STR] = span_id
+          parent = value[PARENT_ID_STR][0]
+          real_parent = spans_end_id_to_start_id[parent]
+          unset_id_map[span_id] = real_parent
+          # print(span_id + " " + real_parent)
+          # span[PARENT_ID_STR][0] = real_parent
+          # spans_dict[span_id] = span
           # spans_end_id_to_start_id[span_id] = spans_dict[parent_span_id][EVENT_ID_STR]
           continue
         # Handle waited operation case
         if value[OPERATION_STR] == WAITED_OPERATION_STR:
+          sorted_ids.append([span_start_time, span_id])
           spans_dict[span_id] = span
-          start_duration = float(span_start_time) - float(value[DURATION_STR])
+          start_duration = float(span_start_time) - (float(value[DURATION_STR])/1000000)
           spans_dict[parent_span_id][END_TIME_STR] = str(start_duration)
           continue
         # Handle set operation case
         if value[OPERATION_STR] == SET_OPERATION_STR:
+          sorted_ids.append([span_start_time, span_id])
           spans_dict[span_id] = span
           continue
         # Handle join operation case
@@ -137,6 +153,16 @@ def convertToTrace(file_path):
           span[REAL_PARENT_ID_STR] = []
           span[REAL_PARENT_ID_STR].append(real_parent1)
           span[REAL_PARENT_ID_STR].append(real_parent2)
+          # span[PARENT_ID_STR][0] = real_parent1
+          # span[PARENT_ID_STR][1] = real_parent2
+          # spans_dict[parent_span_id][END_TIME_STR] = span_start_time
+          if not parent1 in unset_dict:
+          # if not ((not parent1 in unset_dict) and OPERATION_STR in spans_dict[parent1] and (spans_dict[parent1][OPERATION_STR] == UNSET_OPERATION_STR)):
+            spans_dict[parent1][END_TIME_STR] = span_start_time
+          if not parent2 in unset_dict:
+          # if not ((not parent2 in unset_dict) and OPERATION_STR in spans_dict[parent2] and (spans_dict[parent2][OPERATION_STR] == UNSET_OPERATION_STR)):
+            spans_dict[parent2][END_TIME_STR] = span_start_time
+          sorted_ids.append([span_start_time, span_id])
           spans_dict[span_id] = span
           # if spans_dict[parent1][OPERATION_STR] != UNSET_OPERATION_STR and spans_dict[parent2][OPERATION_STR] != UNSET_OPERATION_STR:
           #   print("problemo")
@@ -148,12 +174,48 @@ def convertToTrace(file_path):
         spans_dict[parent_span_id][END_TIME_STR] = span_start_time
       # Add Duration if needed
       # Normal spans done
+      sorted_ids.append([span_start_time, span_id])
       spans_dict[span_id] = span
       # if DURATION_STR in value and OPERATION_STR in value and value[OPERATION_STR] == WAITED_OPERATION_STR:
       #   span_start_time += value[DURATION_STR]
-  return sorted_events, spans_dict, spans_end_id_to_start_id
+  sorted_ids = sorted(sorted_ids, key=ids_comparator)
+  sorted_ids.pop()
+  print("Processed")
+  return sorted_ids, spans_dict, spans_end_id_to_start_id, unset_id_map
 
 
 
+def getCPT(file_path):
+  sorted_ids, spans_dict, c, unset_id_map = convertToTrace(file_path)
+  # print(sorted_ids)
+  id_time_spent = {}
+  id_time_spent["0"] = 0.0
+  # print(unset_id_map)
+  for index, value in enumerate(sorted_ids):
+    span_id = value[1]
+    # print(span_id)
+    duration = float(spans_dict[span_id][END_TIME_STR]) - float(spans_dict[span_id][START_TIME_STR])
+    # if duration < 0:
+      # print("------------------- " + str(duration) + " " + spans_dict[span_id][END_TIME_STR])
+    if spans_dict[span_id][PARENT_ID_STR][0] in unset_id_map:
+      # print("whynot" + span_id)
+      id_time_spent[span_id] = id_time_spent[unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]] + duration
+      continue
+    if len(spans_dict[span_id][PARENT_ID_STR]) == 1:
+      # print(span_id)
+      id_time_spent[span_id] = id_time_spent[spans_dict[span_id][PARENT_ID_STR][0]] + duration
+    else:
+      # max_duration = id_time_spent[spans_dict[span_id][PARENT_ID_STR][0]]
+      max_duration = id_time_spent.get(spans_dict[span_id][PARENT_ID_STR][0], 0)
+      # print(span_id)
+      for id in spans_dict[span_id][PARENT_ID_STR]:
+        if id in unset_id_map:
+          max_duration = max(max_duration, id_time_spent[unset_id_map[id]])
+        else:
+          # max_duration = max(max_duration, id_time_spent[id])
+          max_duration = max(max_duration, id_time_spent.get(id, 0))
+      id_time_spent[span_id] = max_duration + duration
+    # print(id_time_spent[span_id])
+  print(id_time_spent)
 
-convertToTrace("sample-large-xtrace.json")
+getCPT("sample-large-xtrace.json")
