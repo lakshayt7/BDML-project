@@ -1,0 +1,967 @@
+{
+    "traceID": "b28fedb498750270",
+    "spans": [
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "c688215ec6f6d3fb",
+            "flags": 1,
+            "operationName": "MongoUpdate.",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "b0b0cda338d68d27"
+                }
+            ],
+            "startTime": 1682628698189342,
+            "duration": 440,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "b0b0cda338d68d27",
+            "flags": 1,
+            "operationName": "UploadMovieReview",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "f812ef3feba8410d"
+                }
+            ],
+            "startTime": 1682628698188970,
+            "duration": 1130,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "4b06d6b285a66080",
+            "flags": 1,
+            "operationName": "RedisUpdate",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "b0b0cda338d68d27"
+                }
+            ],
+            "startTime": 1682628698189806,
+            "duration": 286,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "2f816ce5b471f5b7",
+            "flags": 1,
+            "operationName": "MongoFindMovie",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "b0b0cda338d68d27"
+                }
+            ],
+            "startTime": 1682628698188988,
+            "duration": 1115,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "d7159d226fc7ae77",
+            "flags": 1,
+            "operationName": "ComposeReview",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "201cf5193e7773c8"
+                }
+            ],
+            "startTime": 1682628698187258,
+            "duration": 3719,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p2",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "b28fedb498750270",
+            "flags": 1,
+            "operationName": "/wrk2-api/review/compose",
+            "references": [],
+            "startTime": 1682628698187000,
+            "duration": 4046,
+            "tags": [
+                {
+                    "key": "sampler.type",
+                    "type": "string",
+                    "value": "const"
+                },
+                {
+                    "key": "sampler.param",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "key": "http.status_code",
+                    "type": "int64",
+                    "value": 200
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "8"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "172.18.0.1:40614"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "POST"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://localhost:8080/wrk2-api/review/compose/wrk2-api/review/compose"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "localhost:8080"
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p2",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "201cf5193e7773c8",
+            "flags": 1,
+            "operationName": "/wrk2-api/review/compose",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "b28fedb498750270"
+                }
+            ],
+            "startTime": 1682628698187213,
+            "duration": 3833,
+            "tags": [
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "8"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "172.18.0.1:40614"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "POST"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://localhost:8080/wrk2-api/review/compose/wrk2-api/review/compose"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "localhost:8080"
+                },
+                {
+                    "key": "http.status_code",
+                    "type": "int64",
+                    "value": 200
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p2",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "a81deebb5d92b1c6",
+            "flags": 1,
+            "operationName": "MongoInsertReview",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "dbe83fb52a1b1e43"
+                }
+            ],
+            "startTime": 1682628698188915,
+            "duration": 293,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p3",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "dbe83fb52a1b1e43",
+            "flags": 1,
+            "operationName": "StoreReview",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "f812ef3feba8410d"
+                }
+            ],
+            "startTime": 1682628698188888,
+            "duration": 332,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p3",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "82b88688e400d305",
+            "flags": 1,
+            "operationName": "MongoUpdate",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "f6d2247898fd2267"
+                }
+            ],
+            "startTime": 1682628698189553,
+            "duration": 492,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p4",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "f7256ddd68e04d0d",
+            "flags": 1,
+            "operationName": "RedisUpdate",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "f6d2247898fd2267"
+                }
+            ],
+            "startTime": 1682628698190125,
+            "duration": 305,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p4",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "78f52d81b13713c6",
+            "flags": 1,
+            "operationName": "MongoFindUser",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "f6d2247898fd2267"
+                }
+            ],
+            "startTime": 1682628698189108,
+            "duration": 1336,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p4",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "f6d2247898fd2267",
+            "flags": 1,
+            "operationName": "UploadUserReview",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "f812ef3feba8410d"
+                }
+            ],
+            "startTime": 1682628698189083,
+            "duration": 1356,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p4",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "74ba78f672a24d94",
+            "flags": 1,
+            "operationName": "UploadUniqueId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "151139c2380039d9"
+                }
+            ],
+            "startTime": 1682628698187781,
+            "duration": 377,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p5",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "c436e749741c3830",
+            "flags": 1,
+            "operationName": "UploadMovieId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "3e8bc6d478c50a97"
+                }
+            ],
+            "startTime": 1682628698188030,
+            "duration": 334,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p5",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "0a7d456400947e83",
+            "flags": 1,
+            "operationName": "UploadUserId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "310c2ca38c6fb90a"
+                }
+            ],
+            "startTime": 1682628698187666,
+            "duration": 400,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p5",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "f812ef3feba8410d",
+            "flags": 1,
+            "operationName": "UploadRating",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "2b49cec1f7a0cc0f"
+                }
+            ],
+            "startTime": 1682628698188090,
+            "duration": 2571,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p5",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "b3170fee08a0241f",
+            "flags": 1,
+            "operationName": "MmcGetMovieId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "3e8bc6d478c50a97"
+                }
+            ],
+            "startTime": 1682628698187525,
+            "duration": 95,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p6",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "788362c4d6f1cb7f",
+            "flags": 1,
+            "operationName": "MmcSetMovieId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "3e8bc6d478c50a97"
+                }
+            ],
+            "startTime": 1682628698187762,
+            "duration": 106,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p6",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "3e8bc6d478c50a97",
+            "flags": 1,
+            "operationName": "UploadMovieId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "d7159d226fc7ae77"
+                }
+            ],
+            "startTime": 1682628698187510,
+            "duration": 3388,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p6",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "7b01308ae6ca10a8",
+            "flags": 1,
+            "operationName": "UploadText",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "1035f0e80f882876"
+                }
+            ],
+            "startTime": 1682628698187667,
+            "duration": 500,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p5",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "310c2ca38c6fb90a",
+            "flags": 1,
+            "operationName": "UploadUserWithUsername",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "d7159d226fc7ae77"
+                }
+            ],
+            "startTime": 1682628698187424,
+            "duration": 740,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p7",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "fcf4eb8be9ebf3c8",
+            "flags": 1,
+            "operationName": "MmcGetUserId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "310c2ca38c6fb90a"
+                }
+            ],
+            "startTime": 1682628698187438,
+            "duration": 79,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p7",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "151139c2380039d9",
+            "flags": 1,
+            "operationName": "UploadUniqueId",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "d7159d226fc7ae77"
+                }
+            ],
+            "startTime": 1682628698187649,
+            "duration": 585,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p8",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "1035f0e80f882876",
+            "flags": 1,
+            "operationName": "UploadText",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "d7159d226fc7ae77"
+                }
+            ],
+            "startTime": 1682628698187583,
+            "duration": 651,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p9",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "2b49cec1f7a0cc0f",
+            "flags": 1,
+            "operationName": "UploadRating",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "3e8bc6d478c50a97"
+                }
+            ],
+            "startTime": 1682628698187946,
+            "duration": 2852,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p10",
+            "warnings": null
+        },
+        {
+            "traceID": "b28fedb498750270",
+            "spanID": "853e61f9ac378e02",
+            "flags": 1,
+            "operationName": "RedisInsert",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "b28fedb498750270",
+                    "spanID": "2b49cec1f7a0cc0f"
+                }
+            ],
+            "startTime": 1682628698188039,
+            "duration": 317,
+            "tags": [
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p10",
+            "warnings": null
+        }
+    ],
+    "processes": {
+        "p1": {
+            "serviceName": "movie-review-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "movie-review-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p10": {
+            "serviceName": "rating-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "rating-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p2": {
+            "serviceName": "nginx",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "nginx-thrift"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p3": {
+            "serviceName": "review-storage-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "review-storage-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p4": {
+            "serviceName": "user-review-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "user-review-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p5": {
+            "serviceName": "compose-review-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "compose-review-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p6": {
+            "serviceName": "movie-id-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "movie-id-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p7": {
+            "serviceName": "user-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "user-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p8": {
+            "serviceName": "unique-id-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "unique-id-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        },
+        "p9": {
+            "serviceName": "text-service",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "text-service"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        }
+    },
+    "warnings": null
+}

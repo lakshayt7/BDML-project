@@ -1,0 +1,222 @@
+{
+    "traceID": "6e7f355d35fd62ea",
+    "spans": [
+        {
+            "traceID": "6e7f355d35fd62ea",
+            "spanID": "991fd388b79381eb",
+            "flags": 1,
+            "operationName": "",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "6e7f355d35fd62ea",
+                    "spanID": "6e7f355d35fd62ea"
+                }
+            ],
+            "startTime": 1682650988380109,
+            "duration": 40,
+            "tags": [
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "11"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "64.62.197.15:29909"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "GET"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://api.ipify.org/?format=json"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "api.ipify.org"
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "6e7f355d35fd62ea",
+            "spanID": "fa0a24f87c504169",
+            "flags": 1,
+            "operationName": "",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "6e7f355d35fd62ea",
+                    "spanID": "6e7f355d35fd62ea"
+                }
+            ],
+            "startTime": 1682650988380209,
+            "duration": 97,
+            "tags": [
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "11"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "64.62.197.15:29909"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "GET"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://api.ipify.org/?format=json"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "api.ipify.org"
+                },
+                {
+                    "key": "http.status_code",
+                    "type": "int64",
+                    "value": 200
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "6e7f355d35fd62ea",
+            "spanID": "6e7f355d35fd62ea",
+            "flags": 1,
+            "operationName": "",
+            "references": [],
+            "startTime": 1682650988380000,
+            "duration": 306,
+            "tags": [
+                {
+                    "key": "sampler.type",
+                    "type": "string",
+                    "value": "const"
+                },
+                {
+                    "key": "sampler.param",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "key": "http.status_code",
+                    "type": "int64",
+                    "value": 200
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "11"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "64.62.197.15:29909"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "GET"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://api.ipify.org/?format=json"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "api.ipify.org"
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        }
+    ],
+    "processes": {
+        "p1": {
+            "serviceName": "nginx",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "nginx-thrift"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        }
+    },
+    "warnings": null
+}

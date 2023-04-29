@@ -1,0 +1,162 @@
+{
+    "traceID": "e70c1f257e9582fb",
+    "spans": [
+        {
+            "traceID": "e70c1f257e9582fb",
+            "spanID": "0871ffeebc79091a",
+            "flags": 1,
+            "operationName": "",
+            "references": [
+                {
+                    "refType": "CHILD_OF",
+                    "traceID": "e70c1f257e9582fb",
+                    "spanID": "e70c1f257e9582fb"
+                }
+            ],
+            "startTime": 1682707470561971,
+            "duration": 118,
+            "tags": [
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "8"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "167.172.228.195:36420"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "GET"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://128.105.145.26:8080/favicon.ico"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "128.105.145.26:8080"
+                },
+                {
+                    "key": "http.status_code",
+                    "type": "int64",
+                    "value": 404
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        },
+        {
+            "traceID": "e70c1f257e9582fb",
+            "spanID": "e70c1f257e9582fb",
+            "flags": 1,
+            "operationName": "",
+            "references": [],
+            "startTime": 1682707470561000,
+            "duration": 1089,
+            "tags": [
+                {
+                    "key": "sampler.type",
+                    "type": "string",
+                    "value": "const"
+                },
+                {
+                    "key": "sampler.param",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "key": "http.status_code",
+                    "type": "int64",
+                    "value": 404
+                },
+                {
+                    "key": "http.status_line",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "key": "component",
+                    "type": "string",
+                    "value": "nginx"
+                },
+                {
+                    "key": "nginx.worker_pid",
+                    "type": "string",
+                    "value": "8"
+                },
+                {
+                    "key": "peer.address",
+                    "type": "string",
+                    "value": "167.172.228.195:36420"
+                },
+                {
+                    "key": "http.method",
+                    "type": "string",
+                    "value": "GET"
+                },
+                {
+                    "key": "http.url",
+                    "type": "string",
+                    "value": "http://128.105.145.26:8080/favicon.ico"
+                },
+                {
+                    "key": "http.host",
+                    "type": "string",
+                    "value": "128.105.145.26:8080"
+                },
+                {
+                    "key": "internal.span.format",
+                    "type": "string",
+                    "value": "proto"
+                }
+            ],
+            "logs": [],
+            "processID": "p1",
+            "warnings": null
+        }
+    ],
+    "processes": {
+        "p1": {
+            "serviceName": "nginx",
+            "tags": [
+                {
+                    "key": "hostname",
+                    "type": "string",
+                    "value": "nginx-thrift"
+                },
+                {
+                    "key": "ip",
+                    "type": "string",
+                    "value": "127.0.0.1"
+                },
+                {
+                    "key": "jaeger.version",
+                    "type": "string",
+                    "value": "C++-0.4.2"
+                }
+            ]
+        }
+    },
+    "warnings": null
+}
