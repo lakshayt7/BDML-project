@@ -16,9 +16,13 @@ class Trace:
         self.pid = "None"
         self.operationName = "None"
         self.serviceName = "None"
+        self.traceID = "None"
 
     def set_parent(self, par):
         self.parent = par
+
+    def set_traceID(self, id):
+        self.traceID = id
 
     def set_processID(self, pid):
         self.pid = pid
@@ -60,6 +64,7 @@ class Trace:
         return "span_id = " + self.id + " parent_id = " + self.parent_id + " start_time = " + str(self.start_time) + " end_time = "+str(self.end_time)+"duration = "+ str(self.end_time - self.start_time)
 
     def pprint(self):
+        print("trace_id = " + self.traceID)
         print("span_id = " + self.id)
         print("parent_id = " + self.parent_id)
         print("start_time = " + str(self.start_time))

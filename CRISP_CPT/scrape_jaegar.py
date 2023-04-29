@@ -50,11 +50,14 @@ class Scaper_jaegar:
         f = open(self.fname, "r")
 
         js = json.load(f)
+        traceID = js['traceID']
+
         for tr in traces:
             try:    
                 tr.set_serviceName(js['data'][0]['processes'][tr.pid]['serviceName'])
             except:
                 tr.set_serviceName(js['processes'][tr.pid]['serviceName'])
+            tr.set_traceID(traceID)
 
         return traces
 
