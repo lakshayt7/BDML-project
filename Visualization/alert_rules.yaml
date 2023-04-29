@@ -1,0 +1,10 @@
+groups:
+- name: Alerts
+  rules:
+  - alert: HighCriticalPathTime
+    expr: critical_path > 10
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Critical Path Time for service {{ $labels.service }}"
