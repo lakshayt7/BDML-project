@@ -27,5 +27,5 @@ def parse_dir(inp_dir):
         file = inp_dir + file
         inp = open(file).read()
         df = parse(inp)
-    dfs.append(df)
+        dfs.append(df)
     return dfs
