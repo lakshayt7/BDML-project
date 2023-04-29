@@ -125,8 +125,8 @@ def convertToTrace(file_path):
           spans_dict[parent_span_id][END_TIME_STR] = span_start_time
           spans_dict[parent_span_id][END_EVENT_ID_STR] = span_id
           parent = value[PARENT_ID_STR][0]
-          real_parent = spans_end_id_to_start_id[parent]
-          unset_id_map[span_id] = real_parent
+          # real_parent = spans_end_id_to_start_id[parent]
+          unset_id_map[span_id] = parent
           # print(span_id + " " + real_parent)
           # span[PARENT_ID_STR][0] = real_parent
           # spans_dict[span_id] = span
@@ -156,10 +156,10 @@ def convertToTrace(file_path):
           # span[PARENT_ID_STR][0] = real_parent1
           # span[PARENT_ID_STR][1] = real_parent2
           # spans_dict[parent_span_id][END_TIME_STR] = span_start_time
-          if not parent1 in unset_dict:
+          if not parent1 in unset_dict and span[THREAD_ID_STR] == spans_dict[parent1][THREAD_ID_STR]:
           # if not ((not parent1 in unset_dict) and OPERATION_STR in spans_dict[parent1] and (spans_dict[parent1][OPERATION_STR] == UNSET_OPERATION_STR)):
             spans_dict[parent1][END_TIME_STR] = span_start_time
-          if not parent2 in unset_dict:
+          if not parent2 in unset_dict and span[THREAD_ID_STR] == spans_dict[parent2][THREAD_ID_STR]:
           # if not ((not parent2 in unset_dict) and OPERATION_STR in spans_dict[parent2] and (spans_dict[parent2][OPERATION_STR] == UNSET_OPERATION_STR)):
             spans_dict[parent2][END_TIME_STR] = span_start_time
           sorted_ids.append([span_start_time, span_id])
@@ -187,29 +187,34 @@ def convertToTrace(file_path):
 
 
 def getCPT(file_path):
-  sorted_ids, spans_dict, _, unset_id_map, last_id = convertToTrace(file_path)
+  sorted_ids, spans_dict, spans_end_id_to_start_id, unset_id_map, last_id = convertToTrace(file_path)
   # print(sorted_ids)
   id_time_spent = {}
   id_time_spent["0"] = 0.0
   id_time_parent = {}
-  # print(unset_id_map)
+  print(unset_id_map)
+  print("Godddam")
   for index, value in enumerate(sorted_ids):
     span_id = value[1]
-    print(span_id)
     duration = float(spans_dict[span_id][END_TIME_STR]) - float(spans_dict[span_id][START_TIME_STR])
-    if duration < 0:
-      print("------------------- " + str(duration) + " " + spans_dict[span_id][END_TIME_STR])
+    print("Hoho1 " + span_id + " " + str(duration))
+    # if duration < 0:
+    #   print("------------------- " + str(duration) + " " + spans_dict[span_id][END_TIME_STR])
     if spans_dict[span_id][PARENT_ID_STR][0] in unset_id_map:
       # print("whynot" + span_id)
       id_time_spent[span_id] = id_time_spent[unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]] + duration
       id_time_parent[span_id] = unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]
+      print("Hoho2 " + unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]])
       continue
     if len(spans_dict[span_id][PARENT_ID_STR]) == 1:
       # print(span_id)
-      id_time_spent[span_id] = id_time_spent[spans_dict[span_id][PARENT_ID_STR][0]] + duration
-      id_time_parent[span_id] = spans_dict[span_id][PARENT_ID_STR][0]
+      parent_id = spans_dict[span_id][PARENT_ID_STR][0]
+      if OPERATION_STR in spans_dict[span_id] and (spans_dict[span_id][OPERATION_STR] == JOIN_OPERATION_STR or spans_dict[span_id][OPERATION_STR] == SET_OPERATION_STR):
+        parent_id = spans_dict[parent_id][PARENT_ID_STR][0]
+      id_time_spent[span_id] = id_time_spent[parent_id] + duration
+      id_time_parent[span_id] = parent_id
+      print("Hoho3 " + parent_id)
     else:
-      # max_duration = id_time_spent[spans_dict[span_id][PARENT_ID_STR][0]]
       chosen_parent_id = spans_dict[span_id][PARENT_ID_STR][0]
       max_duration = id_time_spent.get(spans_dict[span_id][PARENT_ID_STR][0], 0)
       # print(span_id)
@@ -219,16 +224,21 @@ def getCPT(file_path):
             chosen_parent_id = unset_id_map[id]
           max_duration = max(max_duration, id_time_spent[unset_id_map[id]])
         else:
-          # max_duration = max(max_duration, id_time_spent[id])
-          if id_time_spent.get(id, 0) > max_duration:
-            chosen_parent_id = id
-          max_duration = max(max_duration, id_time_spent.get(id, 0))
+          parent_id = id
+          parent_id = spans_dict[parent_id][PARENT_ID_STR][0]
+          if id_time_spent.get(parent_id, 0) > max_duration:
+            chosen_parent_id = parent_id
+          max_duration = max(max_duration, id_time_spent.get(parent_id, 0))
       id_time_spent[span_id] = max_duration + duration
       id_time_parent[span_id] = chosen_parent_id
-    print(id_time_spent[span_id])
-  print(id_time_spent)
-  print(id_time_parent)
-  print(last_id)
+      print("Hoho4 " + chosen_parent_id)
+    print("HohoL " + str(id_time_spent[span_id]) + " " + span_id)
+  # print(id_time_spent)
+  # print(id_time_parent)
+  # print(last_id)
+  print(sorted_ids)
+  print("test")
+  print(spans_dict)
   print("CPT path:")
   cpt_path = [last_id[1]]
   parent_id = last_id[1]
