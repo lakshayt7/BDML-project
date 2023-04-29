@@ -38,6 +38,11 @@ class Trace:
     def print_children(self):
         for u in self.children:
             print(u)
+    
+    def set_prometheus_metrics(self, critical_path_metrics):
+        critical_path_metrics.labels(
+            service=self.serviceName, operation=self.operationName).set(
+                self.end_time - self.start_time)
 
     def __str__(self):  
         return "span_id = " + self.id + " parent_id = " + self.parent_id + " start_time = " + str(self.start_time) + " end_time = "+str(self.end_time)+"duration = "+ str(self.end_time - self.start_time)

@@ -1,13 +1,22 @@
 import sys
+from flask import Flask
+from prometheus_client import generate_latest, Gauge
 
 from trace import *
 from scrape_jaegar import *
 from scrape_opentelemetry import *
 from graph import *
 
+app = Flask(__name__)
+
+critical_path_metrics = Gauge('critical_path', 'Critical Path', ['service', 'operation'])
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
+
 if __name__ == "__main__":
     fname = sys.argv[2] 
-    
     match sys.argv[1]:
         case "o":
             scraper = Scaper_opentelemetry(fname)
@@ -40,4 +49,7 @@ if __name__ == "__main__":
 
     graph = Graph(id2trace, traces, roots)
     graph.cpt()
+    graph.set_prometheus_metrics(critical_path_metrics)
     graph.print_cpt()
+
+    app.run()

@@ -25,6 +25,11 @@ class Graph:
     def cpt(self):
         for root in self.roots:
             self.cpt_call(root)
+    
+    def set_prometheus_metrics(self, critical_path_metrics):
+        rev = self.pth#self.pth.reverse()
+        for i, t in enumerate(rev):
+            t.set_prometheus_metrics(critical_path_metrics)
 
     def print_cpt(self):
         rev = self.pth#self.pth.reverse()
