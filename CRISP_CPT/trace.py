@@ -43,12 +43,22 @@ class Trace:
         return "span_id = " + self.id + " parent_id = " + self.parent_id + " start_time = " + str(self.start_time) + " end_time = "+str(self.end_time)+"duration = "+ str(self.end_time - self.start_time)
 
     def pprint(self):
+        exclusive_time = self.end_time - self.start_time
+        ed = self.end_time
+
+        if len(self.children) > 0:
+            for child in reversed(self.children):
+                #print(f"{child.start_time} {child.end_time} {child.end_time - child.start_time}")
+                exclusive_time -= max(min(child.end_time,ed) - max(child.start_time, self.start_time), 0)
+                ed = min(ed, child.start_time)
+
         print("span_id = " + self.id)
         print("parent_id = " + self.parent_id)
         print("start_time = " + str(self.start_time))
         print("end_time = "+str(self.end_time))
-        print("duration = "+ str(self.end_time - self.start_time))
-        print("process id = " + self.pid)
+        print("inclusive_time = "+ str(self.end_time - self.start_time))
+        print("exclusive_time = "+ str(exclusive_time))
+        print("process_id = " + self.pid)
         print("operationName = " + self.operationName)
         print("serviceName = " + self.serviceName)
         print("------------------------------------------------------------------------------------")
