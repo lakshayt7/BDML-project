@@ -1,5 +1,6 @@
 import json
 from collections import defaultdict
+import os
 
 ID_STR = "id"
 REPORTS_STR = "reports"
@@ -13,6 +14,7 @@ REL_TIME_STR = "HRT"
 OPERATION_STR = "Operation"
 DURATION_STR = "Duration"
 TAG_STR = "Tag"
+SOURCE_STR = "Source"
 TASK_NAME_STR = "Label"
 PROCESS_ID_STR = "ProcessID"
 THREAD_ID_STR = "ThreadID"
@@ -34,6 +36,7 @@ def parse(file_path):
     trace_id = item[ID_STR]
     if trace_found:
       print("Multiple Traces found!!!!")
+      raise ValueError("Multiple Traces found!!!!")
     trace_found = True
     for report in item[REPORTS_STR]:
       event = {}
@@ -57,12 +60,15 @@ def parse(file_path):
         event[TAG_STR] = report[TAG_STR]
         if tag_found:
           print("Multiple tags found!!!!")
+          raise ValueError("Multiple tags found!!!!")
         tag_found = True
       event[TASK_NAME_STR] = report[TASK_NAME_STR]
+      if SOURCE_STR in report:
+        event[SOURCE_STR] = report[SOURCE_STR]
       event[PROCESS_ID_STR] = report[PROCESS_ID_STR]
       event[THREAD_ID_STR] = report[THREAD_ID_STR]
       events.append(event)
-  print(count)
+  # print(count)
   return events
 
 def event_comparator(event):
@@ -83,6 +89,7 @@ def convertToTrace(file_path):
     if (index == 0 and not TAG_STR in value):
       print("Error: Starting event does not contain Tag!!!!!")
       print(value)
+      raise ValueError("Error: Starting event does not contain Tag!!!!!")
     # if prev_time >= value[START_TIME_STR]:
     #   print("WTF")
     #   print(value)
@@ -91,7 +98,7 @@ def convertToTrace(file_path):
     #   if proc_thread[getProcThreadKey(value[PROCESS_ID_STR], value[THREAD_ID_STR])][-1][EVENT_ID_STR] != value[PARENT_ID_STR][0]:
     #     print("Woah " + proc_thread[getProcThreadKey(value[PROCESS_ID_STR], value[THREAD_ID_STR])][-1][EVENT_ID_STR] + " " + value[PARENT_ID_STR][0])
     proc_thread[getProcThreadKey(value[PROCESS_ID_STR], value[THREAD_ID_STR])].append(value)
-  print("Number of process & threads combos: " + str(len(proc_thread)))
+  # print("Number of process & threads combos: " + str(len(proc_thread)))
   spans_dict = {}
   spans_end_id_to_start_id = {}
   sorted_ids = []
@@ -181,39 +188,40 @@ def convertToTrace(file_path):
   sorted_ids = sorted(sorted_ids, key=ids_comparator)
   sorted_ids.pop()
   last_id = sorted_ids[-1]
-  print("Processed")
+  # print("Processed")
   return sorted_ids, spans_dict, spans_end_id_to_start_id, unset_id_map, last_id
 
 
 
-def getCPT(file_path):
+def getCPT(file_path, write_file_path):
   sorted_ids, spans_dict, spans_end_id_to_start_id, unset_id_map, last_id = convertToTrace(file_path)
   # print(sorted_ids)
   id_time_spent = {}
   id_time_spent["0"] = 0.0
   id_time_parent = {}
-  print(unset_id_map)
-  print("Godddam")
+  # print(unset_id_map)
+  # print("Godddam")
   for index, value in enumerate(sorted_ids):
     span_id = value[1]
     duration = float(spans_dict[span_id][END_TIME_STR]) - float(spans_dict[span_id][START_TIME_STR])
-    print("Hoho1 " + span_id + " " + str(duration))
+    # print("Hoho1 " + span_id + " " + str(duration))
     # if duration < 0:
     #   print("------------------- " + str(duration) + " " + spans_dict[span_id][END_TIME_STR])
     if spans_dict[span_id][PARENT_ID_STR][0] in unset_id_map:
       # print("whynot" + span_id)
       id_time_spent[span_id] = id_time_spent[unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]] + duration
       id_time_parent[span_id] = unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]
-      print("Hoho2 " + unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]])
+      # print("Hoho2 " + unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]])
       continue
     if len(spans_dict[span_id][PARENT_ID_STR]) == 1:
       # print(span_id)
       parent_id = spans_dict[span_id][PARENT_ID_STR][0]
       if OPERATION_STR in spans_dict[span_id] and (spans_dict[span_id][OPERATION_STR] == JOIN_OPERATION_STR or spans_dict[span_id][OPERATION_STR] == SET_OPERATION_STR):
         parent_id = spans_dict[parent_id][PARENT_ID_STR][0]
-      id_time_spent[span_id] = id_time_spent[parent_id] + duration
+      # id_time_spent[span_id] = id_time_spent[parent_id] + duration
+      id_time_spent[span_id] = id_time_spent.get(parent_id, 0) + duration
       id_time_parent[span_id] = parent_id
-      print("Hoho3 " + parent_id)
+      # print("Hoho3 " + parent_id)
     else:
       chosen_parent_id = spans_dict[span_id][PARENT_ID_STR][0]
       max_duration = id_time_spent.get(spans_dict[span_id][PARENT_ID_STR][0], 0)
@@ -231,23 +239,63 @@ def getCPT(file_path):
           max_duration = max(max_duration, id_time_spent.get(parent_id, 0))
       id_time_spent[span_id] = max_duration + duration
       id_time_parent[span_id] = chosen_parent_id
-      print("Hoho4 " + chosen_parent_id)
-    print("HohoL " + str(id_time_spent[span_id]) + " " + span_id)
+      # print("Hoho4 " + chosen_parent_id)
+    # print("HohoL " + str(id_time_spent[span_id]) + " " + span_id)
   # print(id_time_spent)
   # print(id_time_parent)
   # print(last_id)
-  print(sorted_ids)
-  print("test")
-  print(spans_dict)
-  print("CPT path:")
+  # print(sorted_ids)
+  # print("test")
+  # print(spans_dict)
+  # print("CPT path:")
   cpt_path = [last_id[1]]
   parent_id = last_id[1]
   while (parent_id != "0"):
     cpt_path.append(parent_id)
     parent_id = id_time_parent[parent_id]
   cpt_path.reverse()
-  for id in cpt_path:
-    print(id + " " + str(id_time_spent[id]))
+  f = open(write_file_path, 'w')
+  for index, id in enumerate(cpt_path):
+    # print(id + " " + str(id_time_spent[id]))
+    span = spans_dict[id]
+    duration = id_time_spent[id]
+    if index != 0:
+      duration -= id_time_spent[cpt_path[index - 1]]
+    # print("Index " + str(index))
+    # print("id = " + span[EVENT_ID_STR])
+    # print("ProcessId = " + str(span[PROCESS_ID_STR]))
+    # print("ThreadId = " + str(span[THREAD_ID_STR]))
+    # print("Duration = " + str(duration) + " secs")
+    # if SOURCE_STR in span:
+    #   print("Operation name = " + span[TASK_NAME_STR] + ":" + span[SOURCE_STR])
+    # else:
+    #   print("Operation name = " + span[TASK_NAME_STR])
+    # print("--------------------------------------------------------------------------------")
+    f.write("Index " + str(index) + "\n")
+    f.write("id = " + span[EVENT_ID_STR] + "\n")
+    f.write("ProcessId = " + str(span[PROCESS_ID_STR]) + "\n")
+    f.write("ThreadId = " + str(span[THREAD_ID_STR]) + "\n")
+    f.write("Duration = " + str(duration) + " secs" + "\n")
+    if SOURCE_STR in span:
+      f.write("Operation name = " + span[TASK_NAME_STR] + ":" + span[SOURCE_STR] + "\n")
+    else:
+      f.write("Operation name = " + span[TASK_NAME_STR] + "\n")
+    f.write("--------------------------------------------------------------------------------" + "\n")
   return cpt_path
 
-getCPT("sample-large-xtrace.json")
+def runAllFiles():
+  file_names = os.listdir("./traces")
+  out_folder_path = "traces_output/"
+  for index, file_name in enumerate(file_names):
+    print(index)
+    if index == 1000:
+      break
+    try:
+      getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
+    except Exception as e:
+      print("Got error at index: " + str(index) + " with filename: " + file_name)
+      print("Error reason: " + str(e))
+  # return len(file_names)
+
+# getCPT("sample-large-xtrace.json")
+runAllFiles()
