@@ -180,42 +180,64 @@ def convertToTrace(file_path):
       #   span_start_time += value[DURATION_STR]
   sorted_ids = sorted(sorted_ids, key=ids_comparator)
   sorted_ids.pop()
+  last_id = sorted_ids[-1]
   print("Processed")
-  return sorted_ids, spans_dict, spans_end_id_to_start_id, unset_id_map
+  return sorted_ids, spans_dict, spans_end_id_to_start_id, unset_id_map, last_id
 
 
 
 def getCPT(file_path):
-  sorted_ids, spans_dict, c, unset_id_map = convertToTrace(file_path)
+  sorted_ids, spans_dict, _, unset_id_map, last_id = convertToTrace(file_path)
   # print(sorted_ids)
   id_time_spent = {}
   id_time_spent["0"] = 0.0
+  id_time_parent = {}
   # print(unset_id_map)
   for index, value in enumerate(sorted_ids):
     span_id = value[1]
-    # print(span_id)
+    print(span_id)
     duration = float(spans_dict[span_id][END_TIME_STR]) - float(spans_dict[span_id][START_TIME_STR])
-    # if duration < 0:
-      # print("------------------- " + str(duration) + " " + spans_dict[span_id][END_TIME_STR])
+    if duration < 0:
+      print("------------------- " + str(duration) + " " + spans_dict[span_id][END_TIME_STR])
     if spans_dict[span_id][PARENT_ID_STR][0] in unset_id_map:
       # print("whynot" + span_id)
       id_time_spent[span_id] = id_time_spent[unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]] + duration
+      id_time_parent[span_id] = unset_id_map[spans_dict[span_id][PARENT_ID_STR][0]]
       continue
     if len(spans_dict[span_id][PARENT_ID_STR]) == 1:
       # print(span_id)
       id_time_spent[span_id] = id_time_spent[spans_dict[span_id][PARENT_ID_STR][0]] + duration
+      id_time_parent[span_id] = spans_dict[span_id][PARENT_ID_STR][0]
     else:
       # max_duration = id_time_spent[spans_dict[span_id][PARENT_ID_STR][0]]
+      chosen_parent_id = spans_dict[span_id][PARENT_ID_STR][0]
       max_duration = id_time_spent.get(spans_dict[span_id][PARENT_ID_STR][0], 0)
       # print(span_id)
       for id in spans_dict[span_id][PARENT_ID_STR]:
         if id in unset_id_map:
+          if id_time_spent[unset_id_map[id]] > max_duration:
+            chosen_parent_id = unset_id_map[id]
           max_duration = max(max_duration, id_time_spent[unset_id_map[id]])
         else:
           # max_duration = max(max_duration, id_time_spent[id])
+          if id_time_spent.get(id, 0) > max_duration:
+            chosen_parent_id = id
           max_duration = max(max_duration, id_time_spent.get(id, 0))
       id_time_spent[span_id] = max_duration + duration
-    # print(id_time_spent[span_id])
+      id_time_parent[span_id] = chosen_parent_id
+    print(id_time_spent[span_id])
   print(id_time_spent)
+  print(id_time_parent)
+  print(last_id)
+  print("CPT path:")
+  cpt_path = [last_id[1]]
+  parent_id = last_id[1]
+  while (parent_id != "0"):
+    cpt_path.append(parent_id)
+    parent_id = id_time_parent[parent_id]
+  cpt_path.reverse()
+  for id in cpt_path:
+    print(id + " " + str(id_time_spent[id]))
+  return cpt_path
 
 getCPT("sample-large-xtrace.json")
