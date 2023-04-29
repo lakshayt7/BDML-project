@@ -39,15 +39,7 @@ class Trace:
         for u in self.children:
             print(u)
     
-    def set_prometheus_metrics(self, critical_path_metrics):
-        critical_path_metrics.labels(
-            service=self.serviceName, operation=self.operationName).set(
-                self.end_time - self.start_time)
-
-    def __str__(self):  
-        return "span_id = " + self.id + " parent_id = " + self.parent_id + " start_time = " + str(self.start_time) + " end_time = "+str(self.end_time)+"duration = "+ str(self.end_time - self.start_time)
-
-    def pprint(self):
+    def get_exclusive_time(self):
         exclusive_time = self.end_time - self.start_time
         ed = self.end_time
 
@@ -56,13 +48,24 @@ class Trace:
                 #print(f"{child.start_time} {child.end_time} {child.end_time - child.start_time}")
                 exclusive_time -= max(min(child.end_time,ed) - max(child.start_time, self.start_time), 0)
                 ed = min(ed, child.start_time)
+        
+        return exclusive_time
+    
+    def set_prometheus_metrics(self, critical_path_metrics):
+        critical_path_metrics.labels(
+            service=self.serviceName, operation=self.operationName).inc(
+                self.get_exclusive_time())
 
+    def __str__(self):  
+        return "span_id = " + self.id + " parent_id = " + self.parent_id + " start_time = " + str(self.start_time) + " end_time = "+str(self.end_time)+"duration = "+ str(self.end_time - self.start_time)
+
+    def pprint(self):
         print("span_id = " + self.id)
         print("parent_id = " + self.parent_id)
         print("start_time = " + str(self.start_time))
         print("end_time = "+str(self.end_time))
         print("inclusive_time = "+ str(self.end_time - self.start_time))
-        print("exclusive_time = "+ str(exclusive_time))
+        print("exclusive_time = "+ str(self.get_exclusive_time()))
         print("process_id = " + self.pid)
         print("operationName = " + self.operationName)
         print("serviceName = " + self.serviceName)
