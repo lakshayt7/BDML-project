@@ -57,7 +57,8 @@ class Trace:
     
     def set_prometheus_metrics(self, critical_path_metrics):
         critical_path_metrics.labels(
-            service=self.serviceName, operation=self.operationName).inc(
+            service=self.serviceName, operation=self.operationName, 
+            trace_id = self.traceID).inc(
                 self.get_exclusive_time())
 
     def __str__(self):  

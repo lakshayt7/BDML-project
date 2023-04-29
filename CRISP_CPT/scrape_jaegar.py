@@ -50,7 +50,7 @@ class Scaper_jaegar:
         f = open(self.fname, "r")
 
         js = json.load(f)
-        traceID = js['traceID']
+        traceID = js['data'][0]['traceID']
 
         for tr in traces:
             try:    
