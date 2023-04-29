@@ -1,0 +1,90 @@
+span 0
+span_id = c574de36bc782f18
+parent_id = None
+start_time = 1682628698335000
+end_time = 1682628698338618
+duration = 3618
+process id = p10
+operationName = /wrk2-api/review/compose
+serviceName = nginx
+------------------------------------------------------------------------------------
+span 1
+span_id = f6145e5959fe55f1
+parent_id = c574de36bc782f18
+start_time = 1682628698335523
+end_time = 1682628698338617
+duration = 3094
+process id = p10
+operationName = /wrk2-api/review/compose
+serviceName = nginx
+------------------------------------------------------------------------------------
+span 2
+span_id = a1d9485c08b53e80
+parent_id = f6145e5959fe55f1
+start_time = 1682628698335580
+end_time = 1682628698338571
+duration = 2991
+process id = p10
+operationName = ComposeReview
+serviceName = nginx
+------------------------------------------------------------------------------------
+span 3
+span_id = f509c5a2fc688f52
+parent_id = a1d9485c08b53e80
+start_time = 1682628698335945
+end_time = 1682628698338507
+duration = 2562
+process id = p1
+operationName = UploadMovieId
+serviceName = movie-id-service
+------------------------------------------------------------------------------------
+span 4
+span_id = 1410cd9f62e1db06
+parent_id = f509c5a2fc688f52
+start_time = 1682628698336380
+end_time = 1682628698338383
+duration = 2003
+process id = p2
+operationName = UploadMovieId
+serviceName = compose-review-service
+------------------------------------------------------------------------------------
+span 5
+span_id = f876a2675463c51f
+parent_id = 1410cd9f62e1db06
+start_time = 1682628698337305
+end_time = 1682628698338273
+duration = 968
+process id = p6
+operationName = UploadUserReview
+serviceName = user-review-service
+------------------------------------------------------------------------------------
+span 6
+span_id = 4bc450d787fac9f0
+parent_id = f876a2675463c51f
+start_time = 1682628698337324
+end_time = 1682628698338276
+duration = 952
+process id = p6
+operationName = MongoFindUser
+serviceName = user-review-service
+------------------------------------------------------------------------------------
+span 7
+span_id = d70a519d50b23ea1
+parent_id = f509c5a2fc688f52
+start_time = 1682628698336208
+end_time = 1682628698336292
+duration = 84
+process id = p1
+operationName = MmcSetMovieId
+serviceName = movie-id-service
+------------------------------------------------------------------------------------
+span 8
+span_id = 3adfaa82ea5a83ed
+parent_id = f509c5a2fc688f52
+start_time = 1682628698335957
+end_time = 1682628698336049
+duration = 92
+process id = p1
+operationName = MmcGetMovieId
+serviceName = movie-id-service
+------------------------------------------------------------------------------------
