@@ -13,6 +13,7 @@ END_TIME_STR = "end_time"
 REL_TIME_STR = "HRT"
 OPERATION_STR = "Operation"
 DURATION_STR = "Duration"
+COUNT_STR = "Count"
 TAG_STR = "Tag"
 SOURCE_STR = "Source"
 TASK_NAME_STR = "Label"
@@ -321,12 +322,19 @@ def aggregateCptPaths(all_cpt_paths):
     mod_sorted_counts.append([count[span_name], span_name])
   sorted_by_count = sorted(mod_sorted_counts, key=ids_comparator)
   sorted_by_count.reverse()
+  detailed_cpt_paths = []
   for span in sorted_by_count:
     if span[0] < 2:
       continue
     seen_total += span[0]
     print("Span Name: " + span[1] + " Avg Time: " + str(duration[span[1]]) + " Count: " + str(span[0]) + " Percentage appearance: " + str(float(span[0] * 100) / all_count))
+    cpt_det = {}
+    cpt_det[DURATION_STR] = duration[span[1]]
+    cpt_det[COUNT_STR] = span[0]
+    cpt_det[TASK_NAME_STR] = span[1]
+    detailed_cpt_paths.append(cpt_det)
   print("All seen: " + str(seen_total))
+  return detailed_cpt_paths
 
 def runAllFiles():
   file_names = os.listdir("./traces")
@@ -342,7 +350,7 @@ def runAllFiles():
     except Exception as e:
       print("Got error at index: " + str(index) + " with filename: " + file_name)
       print("Error reason: " + str(e))
-  aggregateCptPaths(all_cpt_paths)
+  return aggregateCptPaths(all_cpt_paths)
   # return len(file_names)
 
 # getCPT("sample-large-xtrace.json")
