@@ -9,7 +9,7 @@ from graph import *
 
 app = Flask(__name__)
 
-critical_path_metrics = Gauge('critical_path', 'Critical Path', ['service', 'operation'])
+critical_path_metrics = Gauge('critical_path', 'Critical Path', ['service', 'operation', 'trace_id'])
 
 @app.route('/metrics')
 def metrics():

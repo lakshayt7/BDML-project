@@ -1,6 +1,8 @@
 import json
 from collections import defaultdict
 import os
+from flask import Flask
+from prometheus_client import generate_latest, Gauge
 
 ID_STR = "id"
 REPORTS_STR = "reports"
@@ -13,6 +15,7 @@ END_TIME_STR = "end_time"
 REL_TIME_STR = "HRT"
 OPERATION_STR = "Operation"
 DURATION_STR = "Duration"
+COUNT_STR = "Count"
 TAG_STR = "Tag"
 SOURCE_STR = "Source"
 TASK_NAME_STR = "Label"
@@ -24,6 +27,14 @@ UNSET_OPERATION_STR = "unset"
 SET_OPERATION_STR = "set"
 JOIN_OPERATION_STR = "join"
 FORK_OPERATION_STR = "fork"
+
+app = Flask(__name__)
+
+critical_path_metrics = Gauge('critical_path', 'Critical Path', ['service', 'trace_id'])
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
 
 def parse(file_path):
   with open(file_path) as f:
@@ -255,10 +266,12 @@ def getCPT(file_path, write_file_path):
     parent_id = id_time_parent[parent_id]
   cpt_path.reverse()
   f = open(write_file_path, 'w')
+  detailed_cpt_path = []
   for index, id in enumerate(cpt_path):
     # print(id + " " + str(id_time_spent[id]))
     span = spans_dict[id]
     duration = id_time_spent[id]
+    details = {}
     if index != 0:
       duration -= id_time_spent[cpt_path[index - 1]]
     # print("Index " + str(index))
@@ -276,26 +289,89 @@ def getCPT(file_path, write_file_path):
     f.write("ProcessId = " + str(span[PROCESS_ID_STR]) + "\n")
     f.write("ThreadId = " + str(span[THREAD_ID_STR]) + "\n")
     f.write("Duration = " + str(duration) + " secs" + "\n")
+    details[DURATION_STR] = duration
     if SOURCE_STR in span:
       f.write("Operation name = " + span[TASK_NAME_STR] + ":" + span[SOURCE_STR] + "\n")
+      details[TASK_NAME_STR] = span[TASK_NAME_STR] + "@" + span[SOURCE_STR]
     else:
       f.write("Operation name = " + span[TASK_NAME_STR] + "\n")
+      details[TASK_NAME_STR] = span[TASK_NAME_STR]
     f.write("--------------------------------------------------------------------------------" + "\n")
-  return cpt_path
+    detailed_cpt_path.append(details)
+    trace_id = file_path.split(".")
+    populatePrometheusMetrics(details[TASK_NAME_STR], details[DURATION_STR], trace_id[0])
+  return cpt_path, detailed_cpt_path, trace_id[0]
+
+def aggregateCptPaths(all_cpt_paths):
+  count = {}
+  duration = {}
+  sorted_counts = []
+  all_count = 0
+  total = 0
+  seen_total = 0
+  for index, cpt_path in enumerate(all_cpt_paths):
+    for i, span in enumerate(cpt_path):
+      total += 1
+      count[span[TASK_NAME_STR]] = count.get(span[TASK_NAME_STR], 0) + 1
+      duration[span[TASK_NAME_STR]] = duration.get(span[TASK_NAME_STR], 0) + span[DURATION_STR]
+    all_count += 1
+  for span_name in count:
+    duration[span_name] /= float(count[span_name])
+    sorted_counts.append([count[span_name], span_name])
+  sorted_by_count = sorted(sorted_counts, key=ids_comparator)
+  sorted_by_count.reverse()
+  mod_sorted_counts = []
+  print("Allcount: " + str(all_count) + " Total: " + str(total))
+  for span in sorted_by_count:
+    if span[0] == 1:
+      split_strings = span[1].split("@")
+      if len(split_strings) == 1:
+        continue
+      count[split_strings[1]] = count.get(split_strings[1], 0) + span[0]
+      duration[split_strings[1]] = duration.get(split_strings[1], 0) + duration[span[1]]
+  for span_name in count:
+    duration[span_name] /= float(count[span_name])
+    mod_sorted_counts.append([count[span_name], span_name])
+  sorted_by_count = sorted(mod_sorted_counts, key=ids_comparator)
+  sorted_by_count.reverse()
+  detailed_cpt_paths = []
+  for span in sorted_by_count:
+    if span[0] < 2:
+      continue
+    seen_total += span[0]
+    print("Span Name: " + span[1] + " Avg Time: " + str(duration[span[1]]) + " Count: " + str(span[0]) + " Percentage appearance: " + str(float(span[0] * 100) / all_count))
+    cpt_det = {}
+    cpt_det[DURATION_STR] = duration[span[1]]
+    cpt_det[COUNT_STR] = span[0]
+    cpt_det[TASK_NAME_STR] = span[1]
+    populatePrometheusMetrics(cpt_det[TASK_NAME_STR], cpt_det[DURATION_STR], "aggregate")
+    detailed_cpt_paths.append(cpt_det)
+  print("All seen: " + str(seen_total))
+  return detailed_cpt_paths
 
 def runAllFiles():
   file_names = os.listdir("./traces")
   out_folder_path = "traces_output/"
+  all_cpt_paths = []
   for index, file_name in enumerate(file_names):
     print(index)
     if index == 1000:
       break
     try:
-      getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
+      cpt_path, detailed_cpt_path, _ = getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
+      all_cpt_paths.append(detailed_cpt_path)
     except Exception as e:
       print("Got error at index: " + str(index) + " with filename: " + file_name)
       print("Error reason: " + str(e))
+  return aggregateCptPaths(all_cpt_paths)
   # return len(file_names)
 
-# getCPT("sample-large-xtrace.json")
-runAllFiles()
+def populatePrometheusMetrics(service_name, duration, id):
+  critical_path_metrics.labels(
+    service=service_name, trace_id=id).inc(duration)
+
+getCPT("sample-large-xtrace.json", "./temp")
+
+# runAllFiles()
+app.run()
+
