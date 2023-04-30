@@ -9,6 +9,7 @@ exclusive_time = 812
 process_id = p7
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = 
 ------------------------------------------------------------------------------------
 span = 1
 trace_id = 202dde11f66e56db
@@ -21,6 +22,7 @@ exclusive_time = 94
 process_id = p7
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 2
 trace_id = 202dde11f66e56db
@@ -33,6 +35,7 @@ exclusive_time = 926
 process_id = p7
 operationName = ComposeReview
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 3
 trace_id = 202dde11f66e56db
@@ -45,6 +48,7 @@ exclusive_time = 168
 process_id = p9
 operationName = UploadText
 serviceName = text-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx
 ------------------------------------------------------------------------------------
 span = 4
 trace_id = 202dde11f66e56db
@@ -57,6 +61,7 @@ exclusive_time = 1341
 process_id = p3
 operationName = UploadText
 serviceName = compose-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadText_text-service
 ------------------------------------------------------------------------------------
 span = 5
 trace_id = 202dde11f66e56db
@@ -69,6 +74,7 @@ exclusive_time = 25
 process_id = p2
 operationName = UploadUserReview
 serviceName = user-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadText_text-service->UploadText_compose-review-service
 ------------------------------------------------------------------------------------
 span = 6
 trace_id = 202dde11f66e56db
@@ -81,4 +87,5 @@ exclusive_time = 948
 process_id = p2
 operationName = MongoFindUser
 serviceName = user-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadText_text-service->UploadText_compose-review-service->UploadUserReview_user-review-service
 ------------------------------------------------------------------------------------

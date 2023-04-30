@@ -17,6 +17,10 @@ class Trace:
         self.operationName = "None"
         self.serviceName = "None"
         self.traceID = "None"
+        self.call_path = ""
+        
+    def set_call_path(self, path):
+        self.call_path = path
 
     def set_parent(self, par):
         self.parent = par
@@ -74,4 +78,5 @@ class Trace:
         print("process_id = " + self.pid)
         print("operationName = " + self.operationName)
         print("serviceName = " + self.serviceName)
+        print("call path = " + self.call_path)
         print("------------------------------------------------------------------------------------")

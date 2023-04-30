@@ -39,5 +39,6 @@ if __name__ == "__main__":
             roots.append(trace)
 
     graph = Graph(id2trace, traces, roots)
+    
     graph.cpt()
     graph.print_cpt()

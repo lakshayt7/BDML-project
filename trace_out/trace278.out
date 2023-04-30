@@ -9,6 +9,7 @@ exclusive_time = 962
 process_id = p3
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = 
 ------------------------------------------------------------------------------------
 span = 1
 trace_id = b92610b66f6bf763
@@ -21,6 +22,7 @@ exclusive_time = 105
 process_id = p3
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 2
 trace_id = b92610b66f6bf763
@@ -33,6 +35,7 @@ exclusive_time = 477
 process_id = p3
 operationName = ComposeReview
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 3
 trace_id = b92610b66f6bf763
@@ -45,6 +48,7 @@ exclusive_time = 180
 process_id = p10
 operationName = UploadText
 serviceName = text-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx
 ------------------------------------------------------------------------------------
 span = 4
 trace_id = b92610b66f6bf763
@@ -57,6 +61,7 @@ exclusive_time = 1412
 process_id = p5
 operationName = UploadText
 serviceName = compose-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadText_text-service
 ------------------------------------------------------------------------------------
 span = 5
 trace_id = b92610b66f6bf763
@@ -69,6 +74,7 @@ exclusive_time = 34
 process_id = p1
 operationName = UploadMovieReview
 serviceName = movie-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadText_text-service->UploadText_compose-review-service
 ------------------------------------------------------------------------------------
 span = 6
 trace_id = b92610b66f6bf763
@@ -81,4 +87,5 @@ exclusive_time = 1266
 process_id = p1
 operationName = MongoFindMovie
 serviceName = movie-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadText_text-service->UploadText_compose-review-service->UploadMovieReview_movie-review-service
 ------------------------------------------------------------------------------------

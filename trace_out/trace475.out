@@ -9,6 +9,7 @@ exclusive_time = 925
 process_id = p7
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = 
 ------------------------------------------------------------------------------------
 span = 1
 trace_id = 572de7a08b21f3c0
@@ -21,6 +22,7 @@ exclusive_time = 84
 process_id = p7
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 2
 trace_id = 572de7a08b21f3c0
@@ -33,6 +35,7 @@ exclusive_time = 306
 process_id = p7
 operationName = ComposeReview
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 3
 trace_id = 572de7a08b21f3c0
@@ -45,6 +48,7 @@ exclusive_time = 414
 process_id = p4
 operationName = UploadMovieId
 serviceName = movie-id-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx
 ------------------------------------------------------------------------------------
 span = 4
 trace_id = 572de7a08b21f3c0
@@ -57,6 +61,7 @@ exclusive_time = 261
 process_id = p6
 operationName = UploadRating
 serviceName = rating-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service
 ------------------------------------------------------------------------------------
 span = 5
 trace_id = 572de7a08b21f3c0
@@ -69,6 +74,7 @@ exclusive_time = 887
 process_id = p2
 operationName = UploadRating
 serviceName = compose-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service->UploadRating_rating-service
 ------------------------------------------------------------------------------------
 span = 6
 trace_id = 572de7a08b21f3c0
@@ -81,6 +87,7 @@ exclusive_time = 28
 process_id = p5
 operationName = UploadUserReview
 serviceName = user-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service->UploadRating_rating-service->UploadRating_compose-review-service
 ------------------------------------------------------------------------------------
 span = 7
 trace_id = 572de7a08b21f3c0
@@ -93,6 +100,7 @@ exclusive_time = 915
 process_id = p5
 operationName = MongoFindUser
 serviceName = user-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service->UploadRating_rating-service->UploadRating_compose-review-service->UploadUserReview_user-review-service
 ------------------------------------------------------------------------------------
 span = 8
 trace_id = 572de7a08b21f3c0
@@ -105,6 +113,7 @@ exclusive_time = 36
 process_id = p8
 operationName = StoreReview
 serviceName = review-storage-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service->UploadRating_rating-service->UploadRating_compose-review-service
 ------------------------------------------------------------------------------------
 span = 9
 trace_id = 572de7a08b21f3c0
@@ -117,6 +126,7 @@ exclusive_time = 254
 process_id = p8
 operationName = MongoInsertReview
 serviceName = review-storage-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service->UploadRating_rating-service->UploadRating_compose-review-service->StoreReview_review-storage-service
 ------------------------------------------------------------------------------------
 span = 10
 trace_id = 572de7a08b21f3c0
@@ -129,4 +139,5 @@ exclusive_time = 138
 process_id = p4
 operationName = MmcGetMovieId
 serviceName = movie-id-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadMovieId_movie-id-service
 ------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ exclusive_time = 799
 process_id = p4
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = 
 ------------------------------------------------------------------------------------
 span = 1
 trace_id = 08b2468b8e2e2706
@@ -21,6 +22,7 @@ exclusive_time = 88
 process_id = p4
 operationName = /wrk2-api/review/compose
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 2
 trace_id = 08b2468b8e2e2706
@@ -33,6 +35,7 @@ exclusive_time = 293
 process_id = p4
 operationName = ComposeReview
 serviceName = nginx
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx
 ------------------------------------------------------------------------------------
 span = 3
 trace_id = 08b2468b8e2e2706
@@ -45,6 +48,7 @@ exclusive_time = 255
 process_id = p8
 operationName = UploadUniqueId
 serviceName = unique-id-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx
 ------------------------------------------------------------------------------------
 span = 4
 trace_id = 08b2468b8e2e2706
@@ -57,6 +61,7 @@ exclusive_time = 1372
 process_id = p6
 operationName = UploadUniqueId
 serviceName = compose-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadUniqueId_unique-id-service
 ------------------------------------------------------------------------------------
 span = 5
 trace_id = 08b2468b8e2e2706
@@ -69,6 +74,7 @@ exclusive_time = 29
 process_id = p2
 operationName = UploadMovieReview
 serviceName = movie-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadUniqueId_unique-id-service->UploadUniqueId_compose-review-service
 ------------------------------------------------------------------------------------
 span = 6
 trace_id = 08b2468b8e2e2706
@@ -81,4 +87,5 @@ exclusive_time = 1289
 process_id = p2
 operationName = MongoFindMovie
 serviceName = movie-review-service
+call path = ->/wrk2-api/review/compose_nginx->/wrk2-api/review/compose_nginx->ComposeReview_nginx->UploadUniqueId_unique-id-service->UploadUniqueId_compose-review-service->UploadMovieReview_movie-review-service
 ------------------------------------------------------------------------------------

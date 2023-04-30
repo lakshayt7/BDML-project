@@ -22,9 +22,15 @@ class Graph:
             while idx >=0 and trace.children[idx].end_time >= tmr:
                 idx-=1
 
+    def calc_call_path(self, root):
+        for child in root.children:
+            child.set_call_path(root.call_path + '->' + root.operationName + '_' + root.serviceName)
+            self.calc_call_path(child)
+
     def cpt(self):
         for root in self.roots:
             self.cpt_call(root)
+            self.calc_call_path(root)
     
     def set_prometheus_metrics(self, critical_path_metrics):
         rev = self.pth#self.pth.reverse()
