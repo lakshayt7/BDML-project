@@ -288,7 +288,8 @@ def getCPT(file_path, write_file_path):
       details[TASK_NAME_STR] = span[TASK_NAME_STR]
     f.write("--------------------------------------------------------------------------------" + "\n")
     detailed_cpt_path.append(details)
-  return cpt_path, detailed_cpt_path
+    trace_id = file_path.split(".")
+  return cpt_path, detailed_cpt_path, trace_id[0]
 
 def aggregateCptPaths(all_cpt_paths):
   count = {}
@@ -345,7 +346,7 @@ def runAllFiles():
     if index == 1000:
       break
     try:
-      cpt_path, detailed_cpt_path = getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
+      cpt_path, detailed_cpt_path, _ = getCPT("./traces/" + file_name, out_folder_path + "traceout" + str(index) + ".txt")
       all_cpt_paths.append(detailed_cpt_path)
     except Exception as e:
       print("Got error at index: " + str(index) + " with filename: " + file_name)
