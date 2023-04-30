@@ -1,6 +1,8 @@
 import json
 from collections import defaultdict
 import os
+from flask import Flask
+from prometheus_client import generate_latest, Gauge
 
 ID_STR = "id"
 REPORTS_STR = "reports"
@@ -25,6 +27,14 @@ UNSET_OPERATION_STR = "unset"
 SET_OPERATION_STR = "set"
 JOIN_OPERATION_STR = "join"
 FORK_OPERATION_STR = "fork"
+
+app = Flask(__name__)
+
+critical_path_metrics = Gauge('critical_path', 'Critical Path', ['service', 'trace_id'])
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
 
 def parse(file_path):
   with open(file_path) as f:
@@ -289,6 +299,7 @@ def getCPT(file_path, write_file_path):
     f.write("--------------------------------------------------------------------------------" + "\n")
     detailed_cpt_path.append(details)
     trace_id = file_path.split(".")
+    populatePrometheusMetrics(details[TASK_NAME_STR], details[DURATION_STR], trace_id[0])
   return cpt_path, detailed_cpt_path, trace_id[0]
 
 def aggregateCptPaths(all_cpt_paths):
@@ -333,6 +344,7 @@ def aggregateCptPaths(all_cpt_paths):
     cpt_det[DURATION_STR] = duration[span[1]]
     cpt_det[COUNT_STR] = span[0]
     cpt_det[TASK_NAME_STR] = span[1]
+    populatePrometheusMetrics(cpt_det[TASK_NAME_STR], cpt_det[DURATION_STR], "aggregate")
     detailed_cpt_paths.append(cpt_det)
   print("All seen: " + str(seen_total))
   return detailed_cpt_paths
@@ -354,5 +366,12 @@ def runAllFiles():
   return aggregateCptPaths(all_cpt_paths)
   # return len(file_names)
 
-# getCPT("sample-large-xtrace.json")
-runAllFiles()
+def populatePrometheusMetrics(service_name, duration, id):
+  critical_path_metrics.labels(
+    service=service_name, trace_id=id).inc(duration)
+
+getCPT("sample-large-xtrace.json", "./temp")
+
+# runAllFiles()
+app.run()
+
