@@ -7,7 +7,6 @@ def parse(inp):
     for sp in sps:
         det = sp.split('\n')
         span = {}
-        pd.DataFrame()
         if len(det) > 2:
             for l in det:
                 if len(l) > 0 and l[0] != '-':

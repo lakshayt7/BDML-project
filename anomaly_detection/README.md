@@ -1,7 +1,7 @@
 use the following command
 
-	python3 main.py outdir/
+	python3 create_dataset.py outdir/
 
 for out traces this is 
 
-	python3 main.py ../trace_out/
+	python3 create_dataset.py ../trace_out/
